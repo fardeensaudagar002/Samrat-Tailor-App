@@ -1,0 +1,19 @@
+Options -Indexes
+DirectoryIndex index.php
+AddDefaultCharset UTF-8
+
+# data/ और inc/ फ़ोल्डर बाहर से कोई नहीं खोल सकता
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(data|inc)(/|$) - [F,L]
+</IfModule>
+
+<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|db|md)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
